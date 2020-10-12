@@ -48,7 +48,7 @@ class ShareifyDaoTest {
         val shareifyItem = ShareifyItem(
             "file",
             "https://thisIsAUrlBelieveMe.com",
-                Calendar.getInstance().time.toString(),
+                Calendar.getInstance().time,
             false,
             1
         )
@@ -62,7 +62,7 @@ class ShareifyDaoTest {
         val shareifyItem = ShareifyItem(
             "file",
             "https://thisIsAUrlBelieveMe.com",
-            Calendar.getInstance().time.toString(),
+            Calendar.getInstance().time,
             false,
             1
         )
@@ -77,21 +77,21 @@ class ShareifyDaoTest {
         val shareifyItem1 = ShareifyItem(
             "file",
             "https://thisIsAUrlBelieveMe.com",
-            Calendar.getInstance().time.toString(),
+            Calendar.getInstance().time,
             false,
             1
         )
         val shareifyItem2 = ShareifyItem(
             "file",
             "https://thisIsAUrlBelieveMe.com",
-            Calendar.getInstance().time.toString(),
+            Calendar.getInstance().time,
             false,
             2
         )
         val shareifyItem3 = ShareifyItem(
             "file",
             "https://thisIsAUrlBelieveMe.com",
-            Calendar.getInstance().time.toString(),
+            Calendar.getInstance().time,
             false,
             3
         )
