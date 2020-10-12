@@ -5,6 +5,10 @@
         android:title="History"
         android:icon="@drawable/ic_history"/>
     <item
+        android:id="@+id/settings"
+        android:title="Settings"
+        android:icon="@drawable/ic_settings"/>
+    <item
         android:id="@+id/placeHolder"
         android:title=""/>
 </menu>
