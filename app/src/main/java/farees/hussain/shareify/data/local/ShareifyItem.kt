@@ -6,7 +6,7 @@ import java.util.*
 
 @Entity(tableName = "shared_items")
 data class ShareifyItem(
-    var name: String,
+    var filename: String,
     var fileUrl: String,
     var sharedDate: Date,
     var isExpired: Boolean = false,

@@ -3,7 +3,7 @@ package farees.hussain.shareify.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import farees.hussain.shareify.data.converters.Converters
+import farees.hussain.shareify.data.Converters
 
 @Database(
     entities = [ShareifyItem::class],

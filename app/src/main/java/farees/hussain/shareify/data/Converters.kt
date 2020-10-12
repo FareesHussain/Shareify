@@ -1,4 +1,4 @@
-package farees.hussain.shareify.data.converters
+package farees.hussain.shareify.data
 
 import androidx.room.TypeConverter
 import java.util.*
