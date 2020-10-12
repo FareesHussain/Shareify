@@ -7,6 +7,6 @@ import androidx.room.RoomDatabase
     entities = [ShareifyItem::class],
     version = 1
 )
-abstract class SharedFilesDatabase: RoomDatabase() {
-    abstract fun shareifyFilesDao(): ShareifyDao
+abstract class ShareifyDatabase: RoomDatabase() {
+    abstract fun shareifyDao(): ShareifyDao
 }
