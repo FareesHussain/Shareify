@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import farees.hussain.shareify.databinding.ActivityMainBinding
 import timber.log.Timber
+import java.util.*
 
 const val SELECT_FILE_CODE = 1
 class MainActivity : AppCompatActivity() {
@@ -65,7 +66,6 @@ class MainActivity : AppCompatActivity() {
                     } finally {
                         cursor?.close()
                     }
-//                    Log.d("file","first case")
                 }
                 if(result==""){
                     result = it.path?:"nothing"
@@ -73,12 +73,9 @@ class MainActivity : AppCompatActivity() {
                     if(cut!=-1){
                         result = result.substring(cut+1)
                     }
-//                    Log.d("file", "second case")
                 }
 //                Log.d("file", result)
             }
         }
-//        Timber.d("$resultCode")
-//        Timber.d("upload $requestCode")
     }
 }
