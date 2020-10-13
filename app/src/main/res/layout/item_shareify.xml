@@ -37,7 +37,7 @@
             android:background="@drawable/rounded_textview"
             android:text="active"
             android:textColor="#000000"
-            android:textSize="18sp"
+            android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="@+id/tvFileName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.984"
