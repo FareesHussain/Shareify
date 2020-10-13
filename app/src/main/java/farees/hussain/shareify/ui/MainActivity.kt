@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import farees.hussain.shareify.databinding.ActivityMainBinding
 import timber.log.Timber
@@ -18,11 +19,15 @@ const val SELECT_FILE_CODE = 1
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
+    lateinit var viewModel: ShareifyViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = ViewModelProvider(this).get(ShareifyViewModel::class.java)
+
+
         binding.bottomNavView.apply {
             background = null
             menu.getItem(2).isEnabled = false
@@ -74,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                         result = result.substring(cut+1)
                     }
                 }
+                viewModel.setCurFileUri(it)
 //                Log.d("file", result)
             }
         }

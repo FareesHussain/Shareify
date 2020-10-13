@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import farees.hussain.shareify.databinding.FragmentSettingsBinding
+import farees.hussain.shareify.ui.ShareifyViewModel
 
 
 class FragmentSettings : Fragment(){
     private lateinit var binding : FragmentSettingsBinding
+    lateinit var viewModel : ShareifyViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,6 +21,7 @@ class FragmentSettings : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
+        viewModel = ViewModelProvider(requireActivity()).get(ShareifyViewModel::class.java)
 
 
 

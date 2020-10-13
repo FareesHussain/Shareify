@@ -7,10 +7,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import farees.hussain.shareify.data.local.ShareifyDao
 import farees.hussain.shareify.data.local.ShareifyDatabase
 import farees.hussain.shareify.data.remote.ShareifyAPI
 import farees.hussain.shareify.other.Constants.BASE_URL_UPLOAD
 import farees.hussain.shareify.other.Constants.SHAREIFY_DATABASE_NAME
+import farees.hussain.shareify.repositories.DefaultShareifyRepository
+import farees.hussain.shareify.repositories.ShareifyRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -39,5 +42,12 @@ object AppModule {
             .build()
             .create(ShareifyAPI::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun providesDefaultShareifyRepository(
+        dao: ShareifyDao,
+        api: ShareifyAPI
+    ) = DefaultShareifyRepository(dao, api) as ShareifyRepository
 
 }
