@@ -8,6 +8,7 @@ import java.util.*
 data class ShareifyItem(
     var filename: String,
     var fileUrl: String,
+    var fileSize: Long,
     var sharedDate: Date,
     var isExpired: Boolean = false,
 

@@ -1,8 +1,11 @@
 package farees.hussain.shareify.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.Log
@@ -11,11 +14,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import farees.hussain.shareify.databinding.ActivityMainBinding
 import timber.log.Timber
-import java.util.*
 
 const val SELECT_FILE_CODE = 1
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
@@ -49,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                         addCategory(Intent.CATEGORY_DEFAULT)
                         setType("*/*")
                     }
-//                    startActivityForResult(intent, SELECT_FILE_CODE)
+                    startActivityForResult(intent, SELECT_FILE_CODE)
 
 
                 }
@@ -76,12 +81,33 @@ class MainActivity : AppCompatActivity() {
                     result = it.path?:"nothing"
                     var cut = result.lastIndexOf("/")
                     if(cut!=-1){
-                        result = result.substring(cut+1)
+                        result = result.substring(cut + 1)
                     }
                 }
                 viewModel.setCurFileUri(it)
+                Timber.d(getSize(this,it)!!)
 //                Log.d("file", result)
             }
         }
     }
+
+    fun getSize(context: Context, uri: Uri): String? {
+        var fileSize: String? = null
+        val cursor: Cursor ?= context.getContentResolver()
+            .query(uri, null, null, null, null, null)
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+
+                // get file size
+                val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
+                if (!cursor.isNull(sizeIndex)) {
+                    fileSize = cursor.getString(sizeIndex)
+                }
+            }
+        } finally {
+            cursor!!.close()
+        }
+        return fileSize
+    }
+
 }

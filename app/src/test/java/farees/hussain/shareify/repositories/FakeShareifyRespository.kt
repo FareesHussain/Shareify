@@ -8,7 +8,7 @@ import farees.hussain.shareify.other.Resource
 import java.io.File
 
 
-class FakeRespository : ShareifyRepository {
+class FakeShareifyRespository : ShareifyRepository {
     private val shareifyItems = mutableListOf<ShareifyItem>()
     private val observableItems = MutableLiveData<List<ShareifyItem>>()
 
@@ -33,7 +33,7 @@ class FakeRespository : ShareifyRepository {
     }
 
     override fun observeAllShareifyItems(): LiveData<List<ShareifyItem>> {
-        return observeAllShareifyItems()
+        return observableItems
     }
 
     override fun deleteAllShareifyItems() {

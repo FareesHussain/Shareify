@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import farees.hussain.shareify.data.local.ShareifyItem
 import farees.hussain.shareify.data.remote.response.UploadResponse
+import farees.hussain.shareify.other.Constants
 import farees.hussain.shareify.other.Event
 import farees.hussain.shareify.other.Resource
 import farees.hussain.shareify.repositories.ShareifyRepository
@@ -20,8 +21,8 @@ class ShareifyViewModel @ViewModelInject constructor(
 ) : ViewModel() {
     val shoppingItems = repository.observeAllShareifyItems()
 
-    private val _fileUrl = MutableLiveData<Event<UploadResponse>>()
-    val fileUrl : LiveData<Event<UploadResponse>> = _fileUrl
+    private val _fileUrl = MutableLiveData<Event<Resource<UploadResponse>>>()
+    val fileUrl : LiveData<Event<Resource<UploadResponse>>> = _fileUrl
 
     private val _curFileUri = MutableLiveData<Uri>()
     val curFileUri : LiveData<Uri> = _curFileUri
@@ -29,8 +30,8 @@ class ShareifyViewModel @ViewModelInject constructor(
     private val _curFileUrl = MutableLiveData<String>()
     val curFileUrl : LiveData<String> = _curFileUrl
 
-    private val _insertShareifyItem = MutableLiveData<Event<Resource<ShareifyItem>>>()
-    val insertShareifyItem : LiveData<Event<Resource<ShareifyItem>>> = _insertShareifyItem
+    private val _insertShareifyItemStatus = MutableLiveData<Event<Resource<ShareifyItem>>>()
+    val insertShareifyItemStatus : LiveData<Event<Resource<ShareifyItem>>> = _insertShareifyItemStatus
 
     fun setCurFileUrl(url:String){
         _curFileUrl.postValue(url)
@@ -46,11 +47,38 @@ class ShareifyViewModel @ViewModelInject constructor(
         _curFileUri.postValue(uri)
     }
 
-    fun insertShareifyItem(fileName: String, fileUrl:String, uploadDate: Date, isExpired: Boolean){
-
+    fun insertShareifyItem(fileName: String, fileUrl:String, filesize:Long, uploadDate: Date, isExpired: Boolean){
+        if(fileName.isEmpty() || fileUrl.isEmpty() || uploadDate == Date(0)){
+            _insertShareifyItemStatus.postValue(Event(Resource.error("Invalid File Format Try Another File",null)))
+            return
+        }
+        if(isExpired){
+            _insertShareifyItemStatus.postValue(Event(Resource.error("File can't be expired before uploading",null)))
+            return
+        }
+        if(filesize>Constants.MAX_FILE_SIZE){
+            _insertShareifyItemStatus.postValue(Event(Resource.error("File size is greater than 100MB", null)))
+            return
+        }
+        val shareifyItem = ShareifyItem(
+            fileName,
+            fileUrl,
+            filesize,
+            uploadDate,
+            isExpired
+        )
+        insertShareifyItem(shareifyItem)
+        _insertShareifyItemStatus.postValue(Event(Resource.success(shareifyItem)))
     }
 
     fun getFileUrl(file: File){
-
+        if(!file.isFile){
+            return
+        }
+        _fileUrl.value = Event(Resource.loading(null))
+        viewModelScope.launch {
+            val response = repository.uploadFile(file)
+            _fileUrl.value = Event(response)
+        }
     }
 }
