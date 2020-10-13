@@ -6,6 +6,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import farees.hussain.shareify.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -15,13 +17,16 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Named
 
 @ExperimentalCoroutinesApi
-@RunWith(AndroidJUnit4::class)
 @SmallTest
+@HiltAndroidTest
 class ShareifyDaoTest {
-    private lateinit var database: ShareifyDatabase
-    private lateinit var dao: ShareifyDao
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
 
     /*
           To encounter `This job has not completed yet` error
@@ -29,12 +34,15 @@ class ShareifyDaoTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    @Inject
+    @Named("test_db")
+    lateinit var database: ShareifyDatabase
+    private lateinit var dao: ShareifyDao
+
+
     @Before
     fun setup(){
-        database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            ShareifyDatabase::class.java
-        ).allowMainThreadQueries().build()
+        hiltRule.inject()
         dao = database.shareifyDao()
     }
 
@@ -48,6 +56,7 @@ class ShareifyDaoTest {
         val shareifyItem = ShareifyItem(
             "file",
             "https://thisIsAUrlBelieveMe.com",
+            2364567,
                 Calendar.getInstance().time,
             false,
             1
@@ -62,6 +71,7 @@ class ShareifyDaoTest {
         val shareifyItem = ShareifyItem(
             "file",
             "https://thisIsAUrlBelieveMe.com",
+            2346,
             Calendar.getInstance().time,
             false,
             1
@@ -77,6 +87,7 @@ class ShareifyDaoTest {
         val shareifyItem1 = ShareifyItem(
             "file",
             "https://thisIsAUrlBelieveMe.com",
+            34567890,
             Calendar.getInstance().time,
             false,
             1
@@ -84,6 +95,7 @@ class ShareifyDaoTest {
         val shareifyItem2 = ShareifyItem(
             "file",
             "https://thisIsAUrlBelieveMe.com",
+            456789,
             Calendar.getInstance().time,
             false,
             2
@@ -91,6 +103,7 @@ class ShareifyDaoTest {
         val shareifyItem3 = ShareifyItem(
             "file",
             "https://thisIsAUrlBelieveMe.com",
+            45678,
             Calendar.getInstance().time,
             false,
             3
