@@ -1,6 +1,7 @@
 package farees.hussain.shareify.data.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -9,6 +10,8 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import farees.hussain.shareify.getOrAwaitValue
+import farees.hussain.shareify.launchFragmentInHiltContainer
+import farees.hussain.shareify.ui.fragments.HistoryFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -64,6 +67,13 @@ class ShareifyDaoTest {
         dao.insertFile(shareifyItem)
         val allFiles = dao.observeAllFiles().getOrAwaitValue()
         assertThat(allFiles).contains(shareifyItem)
+    }
+
+    @Test
+    fun testLaunchFragmentInHiltContainer(){
+        launchFragmentInHiltContainer<HistoryFragment> {
+
+        }
     }
 
     @Test
