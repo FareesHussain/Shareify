@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import farees.hussain.shareify.databinding.FragmentHistoryBinding
 import farees.hussain.shareify.databinding.FragmentSettingsBinding
 import farees.hussain.shareify.ui.ShareifyViewModel
 
 
-class FragmentHistory : Fragment(){
-    private lateinit var binding : FragmentHistoryBinding
+class SettingsFragment : Fragment(){
+    private lateinit var binding : FragmentSettingsBinding
     lateinit var viewModel : ShareifyViewModel
 
 
@@ -21,7 +20,7 @@ class FragmentHistory : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHistoryBinding.inflate(layoutInflater)
+        binding = FragmentSettingsBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity()).get(ShareifyViewModel::class.java)
 
 

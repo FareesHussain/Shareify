@@ -13,9 +13,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import farees.hussain.shareify.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
 const val SELECT_FILE_CODE = 1
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(ShareifyViewModel::class.java)
+        binding.bottomNavView.setupWithNavController(navHostFragment.findNavController())
 
 
         binding.bottomNavView.apply {

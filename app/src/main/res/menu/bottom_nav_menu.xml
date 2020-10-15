@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/history"
-        android:title="History"
+        android:id="@+id/historyFragment"
+        android:title="Upload History"
         android:icon="@drawable/ic_history"/>
     <item
-        android:id="@+id/settings"
+        android:id="@+id/settingsFragment"
         android:title="Settings"
         android:icon="@drawable/ic_settings"/>
     <item
