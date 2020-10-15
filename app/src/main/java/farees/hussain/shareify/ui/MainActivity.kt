@@ -9,15 +9,19 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import farees.hussain.shareify.R
 import farees.hussain.shareify.databinding.ActivityMainBinding
+import farees.hussain.shareify.databinding.FragmentUploadBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
@@ -35,6 +39,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(ShareifyViewModel::class.java)
         binding.bottomNavView.setupWithNavController(navHostFragment.findNavController())
+
+        navHostFragment.findNavController().addOnDestinationChangedListener { controller, destination, arguments ->
+            when(destination.id){
+                R.id.uploadFragment->{
+                    binding.bottomAppBar.visibility = View.GONE
+                    binding.fab.visibility = View.GONE
+                }
+                else -> {
+                    binding.bottomAppBar.visibility = View.VISIBLE
+                    binding.fab.visibility = View.VISIBLE
+                }
+            }
+        }
 
 
         binding.bottomNavView.apply {
@@ -59,8 +76,6 @@ class MainActivity : AppCompatActivity() {
                         setType("*/*")
                     }
                     startActivityForResult(intent, SELECT_FILE_CODE)
-
-
                 }
                 .show()
         }
@@ -90,6 +105,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 viewModel.setCurFileUri(it)
                 Timber.d(getSize(this,it)!!)
+                navHostFragment.findNavController().navigate(R.id.action_global_uploadingfragment)
 //                Log.d("file", result)
             }
         }
