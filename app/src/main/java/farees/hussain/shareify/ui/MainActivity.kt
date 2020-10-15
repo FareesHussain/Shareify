@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                         setType("*/*")
                     }
                     startActivityForResult(intent, SELECT_FILE_CODE)
+                    //todo -> non-deprecated version for startActivityForResult
                 }
                 .show()
         }

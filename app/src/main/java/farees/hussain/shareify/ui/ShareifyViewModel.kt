@@ -45,6 +45,10 @@ class ShareifyViewModel @ViewModelInject constructor(
 
     fun setCurFileUri(uri: Uri){
         _curFileUri.postValue(uri)
+        //todo -> to set values for filename, file Uri, file path
+        /*
+            todo -> setting values using a extension function for Uri
+         */
     }
 
     fun insertShareifyItem(fileName: String, fileUrl:String, filesize:Long, uploadDate: Date, isExpired: Boolean){
