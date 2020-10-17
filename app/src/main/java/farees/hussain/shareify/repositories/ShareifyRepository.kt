@@ -1,10 +1,11 @@
 package farees.hussain.shareify.repositories
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import farees.hussain.shareify.data.local.ShareifyItem
 import farees.hussain.shareify.data.remote.response.UploadResponse
 import farees.hussain.shareify.other.Resource
-import retrofit2.Response
 import java.io.File
 
 interface ShareifyRepository {
@@ -13,5 +14,5 @@ interface ShareifyRepository {
     fun observeAllShareifyItems():LiveData<List<ShareifyItem>>
     fun deleteAllShareifyItems()
 
-    suspend fun uploadFile(file : File): Resource<UploadResponse>
+    suspend fun uploadFile(uri : Uri,context: Context): Resource<UploadResponse>
 }

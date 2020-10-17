@@ -23,6 +23,8 @@ class UploadFragment : Fragment(){
     ): View? {
         binding = FragmentUploadBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity()).get(ShareifyViewModel::class.java)
+        binding.viewModel = viewModel
+        binding.tvFileName.text = viewModel.fileName.toString()
 
         binding.buUpload.setOnClickListener {
             //todo -> insert item in database

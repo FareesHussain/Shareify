@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="farees.hussain.shareify.ui.ShareifyViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,13 +15,14 @@
 
         <TextView
             android:id="@+id/tvFileName"
-            android:layout_width="wrap_content"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:layout_marginLeft="36dp"
             android:layout_marginTop="36dp"
-            android:text="file_name.jpg"
-            android:textSize="24sp"
+            tools:text="filename.jpg"
+            android:text="@{viewModel.fileName}"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="34MB"
+            tools:text="34MB"
+            android:text="@{viewModel.fileSize}"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -38,10 +42,11 @@
 
         <TextView
             android:id="@+id/tvFilePath"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="E://Documents/pics/DCIM"
+            tools:text="E:Documents/DCIM/imaeges"
+            android:text="@{viewModel.filePath}"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -52,10 +57,12 @@
             android:id="@+id/buUpload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="40dp"
             android:text="Upload"
+            android:onClick="@{() ->viewModel.uploadFile()}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvFilePath"
+            app:layout_constraintHorizontal_bias="0.886"
+            app:layout_constraintStart_toStartOf="@+id/tvFilePath"
             app:layout_constraintTop_toBottomOf="@+id/tvFilePath" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

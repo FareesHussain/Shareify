@@ -24,6 +24,10 @@ class SettingsFragment : Fragment(){
         viewModel = ViewModelProvider(requireActivity()).get(ShareifyViewModel::class.java)
 
 
+        binding.buDeleteHistory.setOnClickListener {
+            //todo -> dialog box with conformation to delelte or not
+        }
+
 
 
         return binding.root
