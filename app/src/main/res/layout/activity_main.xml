@@ -39,6 +39,16 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/pbUploading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:indeterminate="true"
+            />
+
+
         <fragment
             android:id="@+id/navHostFragment"
             android:name="androidx.navigation.fragment.NavHostFragment"

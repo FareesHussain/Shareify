@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(ShareifyViewModel::class.java)
         binding.bottomNavView.setupWithNavController(navHostFragment.findNavController())
+        binding.pbUploading.hide()
 
         navHostFragment.findNavController().addOnDestinationChangedListener { controller, destination, arguments ->
             when(destination.id){
