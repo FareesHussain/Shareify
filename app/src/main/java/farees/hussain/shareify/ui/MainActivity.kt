@@ -1,11 +1,11 @@
 package farees.hussain.shareify.ui
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
 import android.util.Log
@@ -13,10 +13,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -24,12 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import farees.hussain.shareify.R
 import farees.hussain.shareify.databinding.ActivityMainBinding
-import farees.hussain.shareify.databinding.FragmentUploadBinding
-import farees.hussain.shareify.ui.fragments.HistoryFragmentDirections
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 const val SELECT_FILE_CODE = 1
@@ -49,9 +42,9 @@ class MainActivity : AppCompatActivity() {
 
         navHostFragment.findNavController().addOnDestinationChangedListener { controller, destination, arguments ->
             when(destination.id){
-                R.id.uploadFragment->{
-                    binding.bottomAppBar.visibility = View.GONE
-                    binding.fab.visibility = View.GONE
+                R.id.uploadFragment -> {
+                    binding.bottomAppBar.visibility = View.INVISIBLE
+                    binding.fab.visibility = View.INVISIBLE
                 }
                 else -> {
                     binding.bottomAppBar.visibility = View.VISIBLE
@@ -93,9 +86,14 @@ class MainActivity : AppCompatActivity() {
                 putExtra(android.content.Intent.EXTRA_SUBJECT, "Shareify link share")
                 putExtra(android.content.Intent.EXTRA_TEXT, "Shareify link share $it")
             }
+            if (it.isNotEmpty()){
+                val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip: ClipData = ClipData.newPlainText("text", it)
+                clipboard.setPrimaryClip(clip)
+            }
             val snackbar = Snackbar.make(
                 findViewById(android.R.id.content),
-                "File Uploaded Successfully",
+                "File uploaded Successfully and Copied to Clipboard",
                 Snackbar.LENGTH_LONG
             )
                 .setAction("SHARE", View.OnClickListener {
