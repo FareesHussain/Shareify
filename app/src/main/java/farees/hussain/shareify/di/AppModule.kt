@@ -14,9 +14,13 @@ import farees.hussain.shareify.other.Constants.BASE_URL_UPLOAD
 import farees.hussain.shareify.other.Constants.SHAREIFY_DATABASE_NAME
 import farees.hussain.shareify.repositories.DefaultShareifyRepository
 import farees.hussain.shareify.repositories.ShareifyRepository
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(ApplicationComponent::class)
@@ -33,12 +37,22 @@ object AppModule {
         database: ShareifyDatabase
     ) = database.shareifyDao()
 
+
     @Singleton
     @Provides
     fun providesShareifyAPI(): ShareifyAPI{
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.NONE)
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .connectTimeout(1000000, TimeUnit.SECONDS)
+            .readTimeout(1000000, TimeUnit.SECONDS)
+            .writeTimeout(1000000, TimeUnit.SECONDS)
+            .callTimeout(1000000, TimeUnit.SECONDS)
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BASE_URL_UPLOAD)
+            .client(client.build())
             .build()
             .create(ShareifyAPI::class.java)
     }

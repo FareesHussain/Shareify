@@ -13,6 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/pbUploading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:indeterminate="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+
         <TextView
             android:id="@+id/tvFileName"
             android:layout_width="350dp"
@@ -59,7 +72,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="Upload"
-            android:onClick="@{() ->viewModel.uploadFile()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.886"
             app:layout_constraintStart_toStartOf="@+id/tvFilePath"

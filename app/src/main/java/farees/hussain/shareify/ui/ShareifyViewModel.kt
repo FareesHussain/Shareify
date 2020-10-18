@@ -37,6 +37,7 @@ class ShareifyViewModel @ViewModelInject constructor(
     private val _filePath = MutableLiveData<String>()
     val filePath : LiveData<String>
     get() = _filePath
+    val uploadProgresss = MutableLiveData<Double>()
 
     private val _fileUrl = MutableLiveData<Event<Resource<UploadResponse>>>()
     val fileUrl : LiveData<Event<Resource<UploadResponse>>> = _fileUrl
@@ -112,11 +113,14 @@ class ShareifyViewModel @ViewModelInject constructor(
     fun uploadFile(){
         _fileUrl.value = Event(Resource.loading(null))
         viewModelScope.launch {
-            val response = repository.uploadFile(curFileUri.value!!,context)
+            val response = repository.uploadFile(curFileUri.value!!,context){progress ->
+                uploadProgresss.postValue(progress*100)
+                Timber.d((progress*100).toFloat().toString())
+            }
             _fileUrl.value = Event(response)
             Timber.d(response.data?.file)
+            response.data?.file?.let { setCurFileUrl(it) }
             Timber.d(_fileUrl.value!!.getContentIfNotHandled()?.message)
-            Timber.d(_fileUrl.value!!.getContentIfNotHandled()?.message.toString())
         }
     }
 

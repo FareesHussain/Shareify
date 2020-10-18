@@ -14,5 +14,5 @@ interface ShareifyRepository {
     fun observeAllShareifyItems():LiveData<List<ShareifyItem>>
     fun deleteAllShareifyItems()
 
-    suspend fun uploadFile(uri : Uri,context: Context): Resource<UploadResponse>
+    suspend fun uploadFile(uri : Uri,context: Context, progressUpdate: ProgressUpdate): Resource<UploadResponse>
 }

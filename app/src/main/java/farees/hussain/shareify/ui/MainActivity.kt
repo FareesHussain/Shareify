@@ -13,16 +13,23 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import farees.hussain.shareify.R
 import farees.hussain.shareify.databinding.ActivityMainBinding
 import farees.hussain.shareify.databinding.FragmentUploadBinding
+import farees.hussain.shareify.ui.fragments.HistoryFragmentDirections
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 const val SELECT_FILE_CODE = 1
@@ -39,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(ShareifyViewModel::class.java)
         binding.bottomNavView.setupWithNavController(navHostFragment.findNavController())
-        binding.pbUploading.hide()
 
         navHostFragment.findNavController().addOnDestinationChangedListener { controller, destination, arguments ->
             when(destination.id){
@@ -81,6 +87,25 @@ class MainActivity : AppCompatActivity() {
                 }
                 .show()
         }
+        viewModel.curFileUrl.observe(this, Observer {
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                setType("text/plain")
+                putExtra(android.content.Intent.EXTRA_SUBJECT, "Shareify link share")
+                putExtra(android.content.Intent.EXTRA_TEXT, "Shareify link share $it")
+            }
+            val snackbar = Snackbar.make(
+                findViewById(android.R.id.content),
+                "File Uploaded Successfully",
+                Snackbar.LENGTH_LONG
+            )
+                .setAction("SHARE", View.OnClickListener {
+                    startActivity(Intent.createChooser(intent, "Shareify link share"))
+                })
+            if (it.isNotEmpty()) {
+                snackbar.show()
+            }
+            viewModel.setCurFileUrl("")
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -106,30 +131,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 viewModel.setCurFileUri(it)
-                Timber.d(getSize(this,it)!!)
                 navHostFragment.findNavController().navigate(R.id.action_global_uploadingfragment)
 //                Log.d("file", result)
             }
         }
     }
-
-    fun getSize(context: Context, uri: Uri): String? {
-        var fileSize: String? = null
-        val cursor: Cursor ?= context.getContentResolver()
-            .query(uri, null, null, null, null, null)
-        try {
-            if (cursor != null && cursor.moveToFirst()) {
-
-                // get file size
-                val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
-                if (!cursor.isNull(sizeIndex)) {
-                    fileSize = cursor.getString(sizeIndex)
-                }
-            }
-        } finally {
-            cursor!!.close()
-        }
-        return fileSize
-    }
-
 }
