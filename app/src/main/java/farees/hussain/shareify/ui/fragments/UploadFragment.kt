@@ -46,6 +46,7 @@ class UploadFragment : Fragment(){
             //todo -> if there is a error in request then the snackbar with retry which shows the dialog box to upload again
         }
         viewModel.curFileUrl.observe(viewLifecycleOwner, Observer {
+            findNavController().popBackStack()
             //todo -> go back to history fragment
         })
 

@@ -96,6 +96,7 @@ class MainActivity : AppCompatActivity() {
                 "File uploaded Successfully and Copied to Clipboard",
                 Snackbar.LENGTH_LONG
             )
+                .setAnchorView(binding.fab)
                 .setAction("SHARE", View.OnClickListener {
                     startActivity(Intent.createChooser(intent, "Shareify link share"))
                 })

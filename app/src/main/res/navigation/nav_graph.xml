@@ -14,11 +14,7 @@
     <fragment
         android:id="@+id/uploadFragment"
         android:name="farees.hussain.shareify.ui.fragments.UploadFragment"
-        android:label="UploadFragment" >
-        <action
-            android:id="@+id/action_uploadFragment_to_historyFragment"
-            app:destination="@id/historyFragment" />
-    </fragment>
+        android:label="UploadFragment" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="farees.hussain.shareify.ui.fragments.SettingsFragment"
