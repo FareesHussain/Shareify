@@ -25,10 +25,16 @@ class ShareifyAdapter(
         holder.bind(getItem(position),clickListner)
     }
 
-    class ShareifyItemClickListner(val clickListner: (item: ShareifyItem) -> Unit)
+    class ShareifyItemClickListner(val clickListner: (item: ShareifyItem) -> Unit){
+        fun itemClick(item: ShareifyItem) {
+            clickListner(item)
+        }
+    }
     class ViewHolder(val binding: ItemShareifyBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(item: ShareifyItem, clickListner: ShareifyItemClickListner){
+            binding.shareifyitem = item
             binding.tvFileName.text = item.filename
+            binding.itemclicklistner = clickListner
             if (!item.isExpired){
                 val d: Date = Calendar.getInstance().time
                 val secondsInMillis = 1000
