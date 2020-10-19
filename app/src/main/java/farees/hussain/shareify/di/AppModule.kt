@@ -42,7 +42,7 @@ object AppModule {
     @Provides
     fun providesShareifyAPI(): ShareifyAPI{
         val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.NONE)
+        logging.setLevel(HttpLoggingInterceptor.Level.HEADERS)
         val client = OkHttpClient.Builder()
             .addInterceptor(logging)
             .connectTimeout(1000000, TimeUnit.SECONDS)

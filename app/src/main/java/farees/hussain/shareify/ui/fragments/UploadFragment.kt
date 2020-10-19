@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -41,14 +42,18 @@ class UploadFragment : Fragment(){
             binding.pbUploading.show()
             binding.pbUploading.show()
             viewModel.uploadFile()
+            binding.buselectSomeOtherFile.hide()
             binding.buUpload.visibility = View.INVISIBLE
             //todo -> before navigation check if succesful request and show a toast msg with a button to share
             //todo -> if there is a error in request then the snackbar with retry which shows the dialog box to upload again
         }
         viewModel.curFileUrl.observe(viewLifecycleOwner, Observer {
-            findNavController().popBackStack()
-            //todo -> go back to history fragment
+//            findNavController().popBackStack()
+            binding.buUpload.show()
+            binding.buNext.show()
+            binding.buselectSomeOtherFile.hide()
         })
+        binding.buNext.setOnClickListener { findNavController().popBackStack() }
 
 
         viewModel.uploadProgresss.observe(viewLifecycleOwner, Observer {
@@ -64,4 +69,12 @@ class UploadFragment : Fragment(){
 
         return binding.root
     }
+
+    fun Button.hide(){
+        this.visibility = View.GONE
+    }
+    fun Button.show(){
+        this.visibility = View.VISIBLE
+    }
+
 }
