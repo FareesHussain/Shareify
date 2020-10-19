@@ -69,12 +69,6 @@ class ShareifyDaoTest {
         assertThat(allFiles).contains(shareifyItem)
     }
 
-    @Test
-    fun testLaunchFragmentInHiltContainer(){
-        launchFragmentInHiltContainer<HistoryFragment> {
-
-        }
-    }
 
     @Test
     fun deleteSharifyItem() = runBlockingTest {
