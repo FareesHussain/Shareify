@@ -36,6 +36,8 @@ class UploadFragment : Fragment(){
         binding.viewModel = viewModel
         binding.tvFileName.text = viewModel.fileName.toString()
         binding.pbUploading.hide()
+        binding.buNext.hide()
+        binding.buUpload.show()
 
         binding.buUpload.setOnClickListener {
             //todo -> insert item in database

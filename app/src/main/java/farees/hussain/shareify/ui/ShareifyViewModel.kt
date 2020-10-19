@@ -25,7 +25,7 @@ class ShareifyViewModel @ViewModelInject constructor(
     @ApplicationContext val context: Context,
     private val repository: ShareifyRepository
 ) : ViewModel() {
-    val shoppingItems = repository.observeAllShareifyItems()
+    val shareifyItems = repository.observeAllShareifyItems()
 
     //! variables for upload fragment
     private val _fileName = MutableLiveData<String>()
@@ -34,6 +34,9 @@ class ShareifyViewModel @ViewModelInject constructor(
     private val _fileSize = MutableLiveData<String>()
     val fileSize : LiveData<String>
     get() = _fileSize
+    private val _fileSize1 = MutableLiveData<Long>()
+    val fileSize1 : LiveData<Long>
+    get() = _fileSize1
     private val _filePath = MutableLiveData<String>()
     val filePath : LiveData<String>
     get() = _filePath
@@ -70,6 +73,7 @@ class ShareifyViewModel @ViewModelInject constructor(
         _fileSize.postValue(fileSizeInMB.toString()+"MB")
         _fileName.postValue(fileName1)
         _filePath.postValue(filepath1!!)
+        _fileSize1.postValue(fileSizeInMB.toLong())
         Timber.d(fileName.value)
         Timber.d(fileSizeInBytes)
         Timber.d(filePath.value)
@@ -121,6 +125,13 @@ class ShareifyViewModel @ViewModelInject constructor(
             Timber.d(response.data?.file)
             response.data?.file?.let { setCurFileUrl(it) }
             Timber.d(_fileUrl.value!!.getContentIfNotHandled()?.message)
+            insertShareifyItem(
+                fileName.value!!,
+                response.data?.file!!,
+                fileSize1.value!!.toLong(),
+                Calendar.getInstance().time,
+                false
+            )
         }
     }
 

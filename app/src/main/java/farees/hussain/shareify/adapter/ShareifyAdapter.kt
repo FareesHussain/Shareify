@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import farees.hussain.shareify.R
 import farees.hussain.shareify.data.local.ShareifyItem
 import farees.hussain.shareify.databinding.ItemShareifyBinding
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ShareifyAdapter(
@@ -30,16 +31,24 @@ class ShareifyAdapter(
             binding.tvFileName.text = item.filename
             if (!item.isExpired){
                 val d: Date = Calendar.getInstance().time
-                if(!item.sharedDate.equals(d)){
+                val secondsInMillis = 1000
+                val minutesInMillis : Long = secondsInMillis.toLong() * 60
+                val hoursInMillis : Long = minutesInMillis * 60
+                val daysInMillis: Long = hoursInMillis * 24
+                var diff = d.time - item.sharedDate.time
+                val elapsedDays = diff /daysInMillis
+                diff%=daysInMillis
+                val elapsedHrs = diff/hoursInMillis
+                if(elapsedHrs<24){
                     item.isExpired = true
                 }
             }
             if(!item.isExpired){
-                binding.tvfileStatus.text = "active"
-                binding.tvfileStatus.setBackgroundResource(R.drawable.rounded_textview)
-            } else {
                 binding.tvfileStatus.text = "expired"
                 binding.tvfileStatus.setBackgroundResource(R.drawable.rounded_textview_expired)
+            } else {
+                binding.tvfileStatus.text = "active"
+                binding.tvfileStatus.setBackgroundResource(R.drawable.rounded_textview)
             }
         }
     }
