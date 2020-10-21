@@ -14,6 +14,7 @@ import farees.hussain.shareify.other.Constants.BASE_URL_UPLOAD
 import farees.hussain.shareify.other.Constants.SHAREIFY_DATABASE_NAME
 import farees.hussain.shareify.repositories.DefaultShareifyRepository
 import farees.hussain.shareify.repositories.ShareifyRepository
+import farees.hussain.shareify.utils.FileInfoExt
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -61,7 +62,13 @@ object AppModule {
     @Provides
     fun providesDefaultShareifyRepository(
         dao: ShareifyDao,
-        api: ShareifyAPI
-    ) = DefaultShareifyRepository(dao, api) as ShareifyRepository
+        api: ShareifyAPI,
+        fileInfoExt: FileInfoExt
+    ) = DefaultShareifyRepository(dao, api, fileInfoExt) as ShareifyRepository
 
+    @Singleton
+    @Provides
+    fun provideFileUriExt(
+        @ApplicationContext context: Context
+    ) = FileInfoExt(context)
 }

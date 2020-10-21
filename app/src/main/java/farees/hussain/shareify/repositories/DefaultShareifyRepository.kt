@@ -10,8 +10,7 @@ import farees.hussain.shareify.data.remote.response.UploadResponse
 import farees.hussain.shareify.other.CountingRequestBody
 import farees.hussain.shareify.other.CountingRequestListener
 import farees.hussain.shareify.other.Resource
-import farees.hussain.shareify.utils.getFileName
-import farees.hussain.shareify.utils.getFilePath
+import farees.hussain.shareify.utils.FileInfoExt
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaType
@@ -26,7 +25,8 @@ typealias ProgressUpdate = (progress: Double) -> Unit
 
 class DefaultShareifyRepository @Inject constructor(
     private val shareifyDao: ShareifyDao,
-    private val shareifyAPI: ShareifyAPI
+    private val shareifyAPI: ShareifyAPI,
+    private val fileInfoExt: FileInfoExt
 ) :ShareifyRepository{
     override suspend fun insertShareifyItem(shareifyItem: ShareifyItem) {
         shareifyDao.insertFile(shareifyItem)
@@ -46,15 +46,14 @@ class DefaultShareifyRepository @Inject constructor(
         return try {
             //todo socket timeout uploading large files
             //todo %dialog box while uploading
-            val file = File(uri.getFilePath(context))
-            val fileExtension = MimeTypeMap.getFileExtensionFromUrl(uri.getFileName(context))
+            val file = File(fileInfoExt.getFilePath(uri)!!)
+            val fileExtension = MimeTypeMap.getFileExtensionFromUrl(fileInfoExt.getFileName(uri))
             var mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExtension)
             val requestFile = file.asRequestBody((mime?:"file").toMediaType())
             var progress = 1.0
             val requestBody = CountingRequestBody(requestFile){bytesWritten,_->
                 progress = 1.0*bytesWritten/file.length()
                 progress(progress)
-//                Timber.d("progress $progress $bytesWritten")
             }
             val multipartbody = MultipartBody.Part.createFormData("myfile", file.name, requestBody )
             Timber.d("${file.name} ${file.length()}")

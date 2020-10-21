@@ -14,16 +14,15 @@ import farees.hussain.shareify.other.Constants
 import farees.hussain.shareify.other.Event
 import farees.hussain.shareify.other.Resource
 import farees.hussain.shareify.repositories.ShareifyRepository
-import farees.hussain.shareify.utils.getFileName
-import farees.hussain.shareify.utils.getFilePath
-import farees.hussain.shareify.utils.getFileSize
+import farees.hussain.shareify.utils.FileInfoExt
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 
 class ShareifyViewModel @ViewModelInject constructor(
     @ApplicationContext val context: Context,
-    private val repository: ShareifyRepository
+    private val repository: ShareifyRepository,
+    private val fileInfo : FileInfoExt
 ) : ViewModel() {
     val shareifyItems = repository.observeAllShareifyItems()
 
@@ -66,9 +65,9 @@ class ShareifyViewModel @ViewModelInject constructor(
 
     fun setCurFileUri(uri: Uri){
         _curFileUri.postValue(uri)
-        val fileSizeInBytes = uri.getFileSize(context)
-        val fileName1 = uri.getFileName(context)
-        val filepath1 = uri.getFilePath(context)
+        val fileSizeInBytes = fileInfo.getFileSize(uri)
+        val fileName1 = fileInfo.getFileName(uri)
+        val filepath1 = fileInfo.getFilePath(uri)
         var fileSizeInMB = Math.round((fileSizeInBytes.toDouble()/1000000) * 100.0)/100.0
         _fileSize.postValue(fileSizeInMB.toString()+"MB")
         _fileName.postValue(fileName1)
