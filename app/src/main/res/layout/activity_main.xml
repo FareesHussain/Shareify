@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.MainActivity">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/appBarLayout">
@@ -36,7 +36,7 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:textSize="23sp" />
             </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
         <fragment
             android:id="@+id/navHostFragment"
             android:name="androidx.navigation.fragment.NavHostFragment"

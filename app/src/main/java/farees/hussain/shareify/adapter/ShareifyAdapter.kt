@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import farees.hussain.shareify.R
 import farees.hussain.shareify.data.local.ShareifyItem
 import farees.hussain.shareify.databinding.ItemShareifyBinding
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,6 +23,7 @@ class ShareifyAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        Timber.d("${getItem(position).sharedDate}")
         holder.bind(getItem(position),clickListner)
     }
 
@@ -37,19 +39,23 @@ class ShareifyAdapter(
             binding.itemclicklistner = clickListner
             if (!item.isExpired){
                 val d: Date = Calendar.getInstance().time
-                val secondsInMillis = 1000
-                val minutesInMillis : Long = secondsInMillis.toLong() * 60
+                val secondsInMillis : Long = 1000
+                val minutesInMillis : Long = secondsInMillis * 60
                 val hoursInMillis : Long = minutesInMillis * 60
                 val daysInMillis: Long = hoursInMillis * 24
-                var diff = d.time - item.sharedDate.time
+                var diff = d.time.toLong() - item.sharedDate.time.toLong()
+                Timber.d("first timeber $diff")
                 val elapsedDays = diff /daysInMillis
-                diff%=daysInMillis
+                diff %= daysInMillis
                 val elapsedHrs = diff/hoursInMillis
-                if(elapsedHrs<24){
+                Timber.d("2nd timeber $diff $elapsedDays $elapsedHrs")
+                Timber.d("$elapsedHrs for ${item.filename} ${item.sharedDate}")
+                Timber.d("${item.sharedDate}")
+                if(elapsedHrs>24 || elapsedDays>=1){
                     item.isExpired = true
                 }
             }
-            if(!item.isExpired){
+            if(item.isExpired){
                 binding.tvfileStatus.text = "expired"
                 binding.tvfileStatus.setBackgroundResource(R.drawable.rounded_textview_expired)
             } else {
