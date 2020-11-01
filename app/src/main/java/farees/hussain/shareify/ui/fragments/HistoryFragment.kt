@@ -34,37 +34,6 @@ class HistoryFragment : Fragment(){
         binding = FragmentHistoryBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity()).get(ShareifyViewModel::class.java)
 
-        val listofShareifyItems = mutableListOf<ShareifyItem>()
-        listofShareifyItems.add(
-            ShareifyItem(
-            "filename.txt",
-            "thisisfileurl",
-            3,
-            Calendar.getInstance().time,
-            false
-            )
-        )
-        listofShareifyItems.add(
-            ShareifyItem(
-            "filename.txt",
-            "thisisfileurl",
-            3,
-            Calendar.getInstance().time,
-            false
-            )
-        )
-        listofShareifyItems.add(
-            ShareifyItem(
-            "filename.txt",
-            "thisisfileurl",
-            3,
-            Calendar.getInstance().time,
-            false
-            )
-        )
-
-
-
         val adapter = ShareifyAdapter(
             ShareifyAdapter.ShareifyItemClickListner {
                 val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -79,7 +48,6 @@ class HistoryFragment : Fragment(){
             binding.rvPreviousUploads.show()
             binding.tvNoFilesUploaded.hide()
         })
-        adapter.submitList(listofShareifyItems)
         binding.rvPreviousUploads.adapter = adapter
 
 
